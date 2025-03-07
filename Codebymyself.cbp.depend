@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1741331425 source:c:\users\admin\desktop\game\codebymyself\main.cpp
+	<SDL.h>
+	<SDL_ttf.h>
+	<vector>
+	<string>
+	<iostream>
+	<cstdlib>
+	<ctime>
+	"def.h"
+
+1739929979 source:c:\users\admin\desktop\game\codebymyself\#1.cpp
+	<SDL.h>
+	<stdio.h>
+
+1741317144 c:\users\admin\desktop\game\codebymyself\def.h
+	<SDL_ttf.h>
+	<vector>
+	<string>
+	<iostream>
+
