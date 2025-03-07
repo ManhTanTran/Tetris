@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1741526856 source:c:\users\admin\desktop\game\codebymyself\main.cpp
+	<SDL.h>
+	<SDL_ttf.h>
+	<vector>
+	<string>
+	<iostream>
+	<cstdlib>
+	<ctime>
+	"def.h"
+	"graphic.h"
+
+1739929979 source:c:\users\admin\desktop\game\codebymyself\#1.cpp
+	<SDL.h>
+	<stdio.h>
+
+1741518019 c:\users\admin\desktop\game\codebymyself\def.h
+	<SDL_ttf.h>
+	<vector>
+	<string>
+	<iostream>
+
+1741446190 c:\users\admin\desktop\game\codebymyself\graphic.h
+	<SDL.h>
+	<SDL_image.h>
+	"def.h"
+
+1741504980 c:\users\admin\desktop\game\codebymyself\tetris.h
+	<vector>
+	<SDL.h>
+
+1741491291 source:c:\users\admin\desktop\game\codebymyself\tetromino.cpp
+	"tetris.h"
+	"def.h"
+	<vector>
+
+1741505337 source:c:\users\admin\desktop\game\codebymyself\def.cpp
+	"def.h"
+
