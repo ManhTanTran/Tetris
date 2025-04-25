@@ -32,9 +32,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="TextRenderer.cpp" />
+		<Unit filename="TextRenderer.h" />
 		<Unit filename="def.h" />
-		<Unit filename="graphic.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="mixer.cpp" />
+		<Unit filename="mixer.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

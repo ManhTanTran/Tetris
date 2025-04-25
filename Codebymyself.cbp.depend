@@ -1,5 +1,9 @@
 # depslib dependency file v1.0
-1741526856 source:c:\users\admin\desktop\game\codebymyself\main.cpp
+140720405272218 <<<<<<< HEAD
+
+1741331425 source:c:\users\admin\desktop\game\codebymyself\main.cpp
+
+1741505337 56e39fb8ab85c960eb47d6579e3ba55ca3b1f
 	<SDL.h>
 	<SDL_ttf.h>
 	<vector>
@@ -8,17 +12,21 @@
 	<cstdlib>
 	<ctime>
 	"def.h"
+	<SDL_ttf.h>
+	<vector>
+	<string>
+	<iostream>
+
+1741317144 D
 	"graphic.h"
+
+1741331425 "
 
 1739929979 source:c:\users\admin\desktop\game\codebymyself\#1.cpp
 	<SDL.h>
 	<stdio.h>
 
-1741518019 c:\users\admin\desktop\game\codebymyself\def.h
-	<SDL_ttf.h>
-	<vector>
-	<string>
-	<iostream>
+1741317144 c:\users\admin\desktop\game\codebymyself\def.h
 
 1741446190 c:\users\admin\desktop\game\codebymyself\graphic.h
 	<SDL.h>
@@ -36,4 +44,48 @@
 
 1741505337 source:c:\users\admin\desktop\game\codebymyself\def.cpp
 	"def.h"
+
+1745607419 source:c:\users\admin\desktop\game\codebymyself\tetris\textrenderer.cpp
+	"TextRenderer.h"
+
+1745605868 c:\users\admin\desktop\game\codebymyself\tetris\textrenderer.h
+	<SDL.h>
+	<SDL_ttf.h>
+	<string>
+
+1745610575 source:c:\users\admin\desktop\game\codebymyself\tetris\main.cpp
+	<SDL.h>
+	<SDL_ttf.h>
+	<vector>
+	<string>
+	<algorithm>
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<cstring>
+	<random>
+	"def.h"
+	"graphic.h"
+	"TextRenderer.h"
+	"mixer.h"
+
+1745610109 c:\users\admin\desktop\game\codebymyself\tetris\def.h
+	<SDL_ttf.h>
+	<vector>
+	<string>
+	<iostream>
+
+1741573447 c:\users\admin\desktop\game\codebymyself\tetris\graphic.h
+	<SDL.h>
+	<SDL_image.h>
+	"def.h"
+
+1745610519 source:c:\users\admin\desktop\game\codebymyself\tetris\mixer.cpp
+	"mixer.h"
+	<SDL.h>
+	<iostream>
+
+1745610495 c:\users\admin\desktop\game\codebymyself\tetris\mixer.h
+	<SDL_mixer.h>
+	<string>
 
