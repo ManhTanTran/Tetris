@@ -8,7 +8,10 @@ Tetris là một thể loại game xếp hình
 - **2. Điểm số**: Người chơi sẽ nhận được điểm khi hoàn thành một hàng. Càng hoàn thành nhiều hàng liên tiếp, điểm số càng cao.
 - **3. Tăng độ khó theo level**: Khi người chơi chơi lâu, tốc độ rơi của các khối tăng dần, khiến trò chơi trở nên khó hơn.
 
-- [I. Bắt đầu game](#1-bắt-đầu-game) 
+- [I. Bắt đầu game](#I-bắt-đầu-game)
+- [II. Hướng dẫn](#II-hướng-dẫn)
+- [III. Các thành phần trong game](#III-các-thành-phần-trong-game)
+- [IV. Khi thất bại](#IV-khi-thất-bại)
 ## I. Bắt đầu game
 
 Chờ một chút xong đó mọi người ấn nút Enter trên bàn phím để bắt đầu chơi game
