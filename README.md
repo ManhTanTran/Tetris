@@ -1,7 +1,5 @@
 # Tetris
 
-
-
 ## Giới thiệu game
 
 Tetris là một thể loại game xếp hình 
@@ -9,7 +7,8 @@ Tetris là một thể loại game xếp hình
 - **1. Xếp hình**: Mỗi khối rơi từ trên xuống và người chơi phải xoay và di chuyển chúng sao cho xếp thành các hàng đầy đủ.
 - **2. Điểm số**: Người chơi sẽ nhận được điểm khi hoàn thành một hàng. Càng hoàn thành nhiều hàng liên tiếp, điểm số càng cao.
 - **3. Tăng độ khó theo level**: Khi người chơi chơi lâu, tốc độ rơi của các khối tăng dần, khiến trò chơi trở nên khó hơn.
-   
+
+- [I. Bắt đầu game](#1-bắt-đầu-game) 
 ## I. Bắt đầu game
 
 Chờ một chút xong đó mọi người ấn nút Enter trên bàn phím để bắt đầu chơi game
