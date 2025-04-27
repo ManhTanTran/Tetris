@@ -32,8 +32,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Settings.cpp" />
+		<Unit filename="Settings.h" />
 		<Unit filename="TextRenderer.cpp" />
 		<Unit filename="TextRenderer.h" />
+		<Unit filename="def.cpp" />
 		<Unit filename="def.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="mixer.cpp" />

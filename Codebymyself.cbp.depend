@@ -53,9 +53,10 @@
 	<SDL_ttf.h>
 	<string>
 
-1745610575 source:c:\users\admin\desktop\game\codebymyself\tetris\main.cpp
+1745766120 source:c:\users\admin\desktop\game\codebymyself\tetris\main.cpp
 	<SDL.h>
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 	<vector>
 	<string>
 	<algorithm>
@@ -68,8 +69,9 @@
 	"graphic.h"
 	"TextRenderer.h"
 	"mixer.h"
+	"Settings.h"
 
-1745610109 c:\users\admin\desktop\game\codebymyself\tetris\def.h
+1745765566 c:\users\admin\desktop\game\codebymyself\tetris\def.h
 	<SDL_ttf.h>
 	<vector>
 	<string>
@@ -88,4 +90,16 @@
 1745610495 c:\users\admin\desktop\game\codebymyself\tetris\mixer.h
 	<SDL_mixer.h>
 	<string>
+
+1745690073 source:c:\users\admin\desktop\game\codebymyself\tetris\settings.cpp
+	"Settings.h"
+	"def.h"
+	<iostream>
+
+1745690061 c:\users\admin\desktop\game\codebymyself\tetris\settings.h
+	"def.h"
+
+1745765566 source:c:\users\admin\desktop\game\codebymyself\tetris\def.cpp
+	"def.h"
+	<SDL_mixer.h>
 

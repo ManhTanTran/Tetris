@@ -6,48 +6,51 @@
 #include <string>
 #include <iostream>
 
-const int GRID_WIDTH = 300;         // Kích thước lưới chơi (chiều rộng)
-const int SCORE_WIDTH = 100;        // Kích thước cột điểm
-const int SCREEN_WIDTH = GRID_WIDTH + SCORE_WIDTH+100; // Tổng chiều rộng cửa sổ
-const int SCREEN_HEIGHT = 600;
-const int BLOCK_SIZE = 30;
-const int ROWS = SCREEN_HEIGHT / BLOCK_SIZE;
-const int COLS = GRID_WIDTH / BLOCK_SIZE; // Số cột dựa trên GRID_WIDTH
-const int BOARD_WIDTH = 10;
-const int BOARD_HEIGHT = 20;
-const char* WINDOW_TITLE = "Tetris Game";
+extern const int GRID_WIDTH;
+extern const int SCORE_WIDTH;
+extern const int SCREEN_WIDTH;
+extern const int SCREEN_HEIGHT;
+extern const int BLOCK_SIZE;
+extern const int ROWS;
+extern const int COLS;
+extern const int BOARD_WIDTH;
+extern const int BOARD_HEIGHT;
+extern const char* WINDOW_TITLE;
 
-SDL_Window* window = nullptr;
-SDL_Renderer* renderer = nullptr;
-SDL_Texture* backgroundTexture = NULL;
-TTF_Font* font = nullptr; // Font dùng để hiển thị điểm
-bool running = true;
-Uint32 lastDropTime = 0;
-Uint32 lockTimerStart = 0;
-const Uint32 lockDelay = 500;
-const Uint32 DROP_DELAY = 500;
-bool gameOver = false;
-bool showStartScreen = true;
-bool onGround = false;
-bool gameWin = false;
-bool holdUsed = false;
-bool hasHoldPiece = false;
-bool holdUsedThisTurn = false;
-bool paused = false;
-bool musicPlayed = false;
+extern SDL_Window* window;
+extern SDL_Renderer* renderer;
+extern SDL_Texture* backgroundTexture;
+extern TTF_Font* font;
+extern bool running;
+extern Uint32 lastDropTime;
+extern Uint32 lockTimerStart;
+extern Uint32 dropSpeed;
+extern const Uint32 lockDelay;
+extern const Uint32 DROP_DELAY;
+extern bool gameOver;
+extern bool showStartScreen;
+extern bool onGround;
+extern bool gameWin;
+extern bool holdUsed;
+extern bool hasHoldPiece;
+extern bool holdUsedThisTurn;
+extern bool paused;
+extern bool musicPlayed;
+extern bool showSettingsMenu;
+extern bool isMuted;
 
-// Mảng lưu màu sắc của từng ô lưới; ô trống có alpha = 0
-SDL_Color grid[ROWS][COLS] = {0};
-int board[BOARD_HEIGHT][BOARD_WIDTH] = {};
-int currentRotation, currentX, currentY;
-int currentIndex;
-int heldPiece = -1;
-int score = 0;
-int level = 1;  // Mặc định bắt đầu từ level 1
-int lines = 0;  // Số dòng đã xóa
-int linesCleared = 0;
-std::vector<int> bag;
+extern std::vector<std::vector<SDL_Color>> grid;  // Changed from static array to vector
+extern std::vector<std::vector<int>> board;       // Changed from static array to vector
 
-
+extern int currentRotation, currentX, currentY;
+extern int currentIndex;
+extern int heldPiece;
+extern int score;
+extern int level;
+extern int lines;
+extern int linesCleared;
+extern int volume;
+extern int bagIndex;
+extern std::vector<int> bag;
 
 #endif
