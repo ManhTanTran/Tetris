@@ -1,5 +1,5 @@
 # Tetris
-
+- Gameplay: https://drive.google.com/drive/folders/1VKsSA8HUuYEszyydYeaKaXenQ0gC8t02?usp=sharing
 ## Giới thiệu game
 
 Tetris là một thể loại game xếp hình 
