@@ -39,8 +39,8 @@ extern bool musicPlayed;
 extern bool showSettingsMenu;
 extern bool isMuted;
 
-extern std::vector<std::vector<SDL_Color>> grid;  // Changed from static array to vector
-extern std::vector<std::vector<int>> board;       // Changed from static array to vector
+extern std::vector<std::vector<SDL_Color>> grid;
+extern std::vector<std::vector<int>> board;
 
 extern int currentRotation, currentX, currentY;
 extern int currentIndex;

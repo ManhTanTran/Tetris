@@ -36,8 +36,8 @@ bool showSettingsMenu = false;
 bool isMuted = false;
 
 
-std::vector<std::vector<SDL_Color>> grid(ROWS, std::vector<SDL_Color>(COLS, {0}));  // Initialize as a vector of vectors
-std::vector<std::vector<int>> board(BOARD_HEIGHT, std::vector<int>(BOARD_WIDTH, 0));  // Initialize as a vector of vectors
+std::vector<std::vector<SDL_Color>> grid(ROWS, std::vector<SDL_Color>(COLS, {0}));
+std::vector<std::vector<int>> board(BOARD_HEIGHT, std::vector<int>(BOARD_WIDTH, 0));
 
 int currentRotation, currentX, currentY;
 int currentIndex;

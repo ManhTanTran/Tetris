@@ -11,7 +11,7 @@ public:
     ~TextRenderer();
 
     void drawText(const std::string& text, int x, int y, SDL_Color color);
-    int getTextWidth(const std::string& text); // <-- Thêm dòng này tại đây
+    int getTextWidth(const std::string& text);
 
 private:
     SDL_Renderer* renderer;
