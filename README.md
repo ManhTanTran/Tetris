@@ -41,10 +41,14 @@ và muốn tiếp tục thì lại ấn nút P
 
 ![image](https://github.com/user-attachments/assets/b50eae02-9e34-42dd-ab49-1ffb92e9c4bc)
 
+Còn để chỉnh âm lượng thì người chơi ấn S bật settings và có hướng dẫn để chỉnh âm lượng phù hợp với người chơi. 
+
+![image](https://github.com/user-attachments/assets/d3dc5e2c-6bd9-47d2-8bd2-5f21ec2539f1)
+
 Khi các block đã rơi xuống đáy rồi người chơi có một khoảng thời gian nhất định để có thể di chuyển các khối chứ không
 bị đổi sang khối khác luôn.
 
-Người chơi có thể ấn nút R để chơi lại từ đầu.
+Khi Game Over thì người chơi có thể ấn nút R để chơi lại từ đầu.
 
 ## III. Các thành phần trong game
 Chúng ta có 7 khối như thế này
