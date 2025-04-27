@@ -22,7 +22,6 @@ struct Block {
     int x, y;
 };
 
-// Cấu trúc của một khối Tetris
 struct Tetromino {
     vector<Block> blocks;
     SDL_Color color;
@@ -32,10 +31,9 @@ struct Tetromino {
 
     bool isValidMove(const vector<Block>& newBlocks) {
         for (const auto &b : newBlocks) {
-            // Cho phép các block có y âm (đang xuất hiện bên ngoài lưới trên)
             if (b.x < 0 || b.x >= COLS || b.y >= ROWS)
                 return false;
-            // Chỉ kiểm tra va chạm nếu block nằm trong lưới hiển thị (y >= 0)
+
             if (b.y >= 0 && grid[b.y][b.x].a != 0)
                 return false;
         }
@@ -72,13 +70,12 @@ struct Tetromino {
         while (!isColliding(*this, 0, 1)) {
             move(0, 1);
         }
-        storePiece(*this);  // Lưu khối vào lưới khi chạm đáy
+        storePiece(*this);
     }
 
     void rotate() {
-    if (blocks.empty()) return; // Avoid errors if there are no blocks
+    if (blocks.empty()) return;
 
-    // Calculate new positions after rotation around the pivot
     vector<Block> newBlocks;
     for (const auto &b : blocks) {
         int newX = pivot.x - (b.y - pivot.y);
@@ -86,19 +83,16 @@ struct Tetromino {
         newBlocks.push_back({newX, newY});
     }
 
-    // Check if the rotation is valid
     if (isValidMove(newBlocks)) {
         blocks = newBlocks;
         return;
     }
     std::cout << "Rotation failed without Wall Kick\n";
-    return; // Tạm tắt xử lý Wall Kick
+    return;
 
-
-    // Wall Kick adjustments to handle blocked rotations
     vector<pair<int, int>> wallKicks = {
-        {1, 0}, {-1, 0}, {0, -1}, {0, 1}, // Basic shifts
-        {1, -1}, {-1, -1}, {1, 1}, {-1, 1} // Diagonal shifts
+        {1, 0}, {-1, 0}, {0, -1}, {0, 1},
+        {1, -1}, {-1, -1}, {1, 1}, {-1, 1}
     };
     if (!isValidMove(newBlocks)) {
         std::cout << "Trying Wall Kick adjustments...\n";
@@ -120,7 +114,6 @@ struct Tetromino {
 
 };
 
-// Danh sách các Tetromino mẫu
 int tetrominoShapes[7][4][4][4] = {
     // I
     {{{0,0,0,0},{1,1,1,1},{0,0,0,0},{0,0,0,0}},
@@ -160,13 +153,13 @@ int tetrominoShapes[7][4][4][4] = {
 };
 
 SDL_Color tetrominoColors[7] = {
-    {0, 255, 255, 255}, // I - Cyan
-    {0, 0, 255, 255},   // J - Blue
-    {255, 165, 0, 255}, // L - Orange
-    {255, 255, 0, 255}, // O - Yellow
-    {0, 255, 0, 255},   // S - Green
-    {160, 32, 240, 255},// T - Purple
-    {255, 0, 0, 255}    // Z - Red
+    {0, 255, 255, 255},
+    {0, 0, 255, 255},
+    {255, 165, 0, 255},
+    {255, 255, 0, 255},
+    {0, 255, 0, 255},
+    {160, 32, 240, 255},
+    {255, 0, 0, 255}
 };
 
 void shuffleBag() {
@@ -174,7 +167,7 @@ void shuffleBag() {
     for (int i = 0; i < 7; ++i) {
         bag.push_back(i);
     }
-    std::shuffle(bag.begin(), bag.end(), g); // dùng engine g
+    std::shuffle(bag.begin(), bag.end(), g);
     bagIndex = 0;
 }
 
@@ -183,16 +176,15 @@ Tetromino createTetrominoFromId(int id) {
     t.color = tetrominoColors[id];
     std::memcpy(t.shape, tetrominoShapes[id], sizeof(t.shape));
 
-    // Khởi tạo blocks từ shape[0] (xoay đầu tiên)
+
     for (int y = 0; y < 4; ++y) {
         for (int x = 0; x < 4; ++x) {
             if (t.shape[0][y][x]) {
-                t.blocks.push_back({x + 3, y}); // cộng 3 để căn giữa trong lưới
+                t.blocks.push_back({x + 3, y});
             }
         }
     }
 
-    // Pivot mặc định là block đầu tiên
     if (!t.blocks.empty()) {
         t.pivot = t.blocks[0];
     }
@@ -232,11 +224,9 @@ bool checkCollision(int x, int y, int rotation) {
 void clearLines() {
     int linesCleared = 0;
 
-    // Duyệt qua bảng từ dưới lên trên để xóa dòng đầy
     for (int y = BOARD_HEIGHT - 1; y >= 0; y--) {
         bool fullLine = true;
 
-        // Kiểm tra xem dòng có đầy không
         for (int x = 0; x < BOARD_WIDTH; x++) {
             if (board[y][x] == 0) {
                 fullLine = false;
@@ -244,7 +234,6 @@ void clearLines() {
             }
         }
 
-        // Nếu dòng đầy, di chuyển các dòng phía trên xuống
         if (fullLine) {
             for (int yy = y; yy > 0; yy--) {
                 for (int xx = 0; xx < BOARD_WIDTH; xx++) {
@@ -252,13 +241,12 @@ void clearLines() {
                 }
             }
 
-            // Dọn dòng đầu tiên
             for (int xx = 0; xx < BOARD_WIDTH; xx++) {
                 board[0][xx] = 0;
             }
 
             linesCleared++;
-            y++;  // Tăng y để kiểm tra lại dòng hiện tại sau khi dịch chuyển
+            y++;
 
         }
     }
@@ -268,13 +256,11 @@ void clearLines() {
 
 void spawnNewPiece() {
     currentPiece = nextPiece;
-    nextPiece = getNextPieceFromBag(); // Dùng đúng bag
+    nextPiece = getNextPieceFromBag();
 
-    // Đặt pivot (nếu bạn dùng pivot để xoay)
     currentPiece.pivot = {5, 1};
 
-    // Set vị trí khối mới
-    currentX = 3; // giữa lưới 10 cột
+    currentX = 3;
     currentY = 0;
     currentRotation = 0;
     holdUsedThisTurn = false;
@@ -292,14 +278,13 @@ void swapHold() {
     if (!hasHoldPiece) {
         holdPiece = currentPiece;
         hasHoldPiece = true;
-        spawnNewPiece(); // Sinh khối mới từ nextPiece
+        spawnNewPiece();
     } else {
         std::swap(currentPiece, holdPiece);
         currentX = 3;
         currentY = 0;
         currentRotation = 0;
 
-        // Cập nhật lại blocks từ shape (frame 0)
         currentPiece.blocks.clear();
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
@@ -314,7 +299,7 @@ void swapHold() {
 }
 
 void draw3DBlock(SDL_Renderer* renderer, const SDL_Rect& rect, SDL_Color color) {
-    // Màu chính của khối
+
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
     SDL_RenderFillRect(renderer, &rect);
 
@@ -324,8 +309,8 @@ void draw3DBlock(SDL_Renderer* renderer, const SDL_Rect& rect, SDL_Color color) 
         std::min(color.g + 60, 255),
         std::min(color.b + 60, 255), 255);
 
-    SDL_RenderDrawLine(renderer, rect.x, rect.y, rect.x + rect.w - 1, rect.y); // top
-    SDL_RenderDrawLine(renderer, rect.x, rect.y, rect.x, rect.y + rect.h - 1); // left
+    SDL_RenderDrawLine(renderer, rect.x, rect.y, rect.x + rect.w - 1, rect.y);
+    SDL_RenderDrawLine(renderer, rect.x, rect.y, rect.x, rect.y + rect.h - 1);
 
     // Bóng tối (dưới & phải)
     SDL_SetRenderDrawColor(renderer,
@@ -333,61 +318,54 @@ void draw3DBlock(SDL_Renderer* renderer, const SDL_Rect& rect, SDL_Color color) 
         std::max(color.g - 60, 0),
         std::max(color.b - 60, 0), 255);
 
-    SDL_RenderDrawLine(renderer, rect.x, rect.y + rect.h - 1, rect.x + rect.w - 1, rect.y + rect.h - 1); // bottom
-    SDL_RenderDrawLine(renderer, rect.x + rect.w - 1, rect.y, rect.x + rect.w - 1, rect.y + rect.h - 1); // right
+    SDL_RenderDrawLine(renderer, rect.x, rect.y + rect.h - 1, rect.x + rect.w - 1, rect.y + rect.h - 1);
+    SDL_RenderDrawLine(renderer, rect.x + rect.w - 1, rect.y, rect.x + rect.w - 1, rect.y + rect.h - 1);
 }
 
 
 void drawGrid() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-    // Vẽ đường dọc cho lưới chơi (chỉ vẽ khu vực GRID_WIDTH)
     for (int i = 0; i <= COLS; i++) {
         int x = i * BLOCK_SIZE;
         SDL_RenderDrawLine(renderer, x, 0, x, SCREEN_HEIGHT);
     }
 
-    // Vẽ đường ngang
     for (int i = 0; i <= ROWS; i++) {
         int y = i * BLOCK_SIZE;
         SDL_RenderDrawLine(renderer, 0, y, COLS * BLOCK_SIZE, y);
     }
 
-    // Vẽ các khối 3D trên lưới
     for (int row = 0; row < ROWS; ++row) {
         for (int col = 0; col < COLS; ++col) {
-            // Tạo một SDL_Rect để đại diện cho ô
+
             SDL_Rect rect;
             rect.x = col * BLOCK_SIZE;
             rect.y = row * BLOCK_SIZE;
             rect.w = BLOCK_SIZE;
             rect.h = BLOCK_SIZE;
 
-            // Vẽ khối 3D tại vị trí đó
-            SDL_Color blockColor = grid[row][col];  // Giả sử grid[row][col] là SDL_Color
+            SDL_Color blockColor = grid[row][col];
             draw3DBlock(renderer, rect, blockColor);
         }
     }
 }
 
 void drawTetromino(const Tetromino& piece, SDL_Renderer* renderer) {
-    // Duyệt qua các ô trong shape của Tetromino
+
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (piece.shape[currentRotation][i][j]) {
-                // Tính toán vị trí x, y dựa trên currentX, currentY và BLOCK_SIZE
                 int x = (currentX + j) * BLOCK_SIZE;
                 int y = (currentY + i) * BLOCK_SIZE;
 
-                // Tạo một SDL_Rect cho khối tại vị trí (x, y)
                 SDL_Rect rect;
                 rect.x = x;
                 rect.y = y;
                 rect.w = BLOCK_SIZE;
                 rect.h = BLOCK_SIZE;
 
-                // Vẽ khối 3D tại vị trí này với màu sắc của Tetromino
-                draw3DBlock(renderer, rect, piece.color);  // Chú ý việc truyền 'renderer' ở đây
+                draw3DBlock(renderer, rect, piece.color);
             }
         }
     }
@@ -425,7 +403,7 @@ bool isGameOver() {
 
 void clearFullRows() {
     int newRow = ROWS - 1;
-    int linesCleared = 0;  // Đếm số dòng đã xóa
+    int linesCleared = 0;
 
     for (int y = ROWS - 1; y >= 0; y--) {
         bool full = true;
@@ -441,21 +419,19 @@ void clearFullRows() {
             }
             newRow--;
         } else {
-            linesCleared++;  // Tăng số dòng đã xóa
+            linesCleared++;
         }
     }
 
-    // Xóa phần còn lại
     for (int y = newRow; y >= 0; y--) {
         for (int x = 0; x < COLS; x++) {
             grid[y][x].a = 0;
         }
     }
 
-    // Cập nhật điểm và level
-    lines += linesCleared;          // Cộng tổng số dòng đã xóa
-    score += linesCleared * 100;     // Cộng điểm
-    level = 1 + lines / 10;          // Level tăng sau mỗi 10 dòng
+    lines += linesCleared;
+    score += linesCleared * 100;
+    level = 1 + lines / 10;
 }
 
 
@@ -492,16 +468,15 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
 }
 
 void renderBackground(SDL_Renderer* renderer, SDL_Texture* background) {
-    SDL_RenderCopy(renderer, background, NULL, NULL); // Vẽ full màn hình
+    SDL_RenderCopy(renderer, background, NULL, NULL);
 }
 
 
 void drawStartScreen() {
 
     SDL_Color white = {255, 255 , 255, 255};
-    TTF_Font* font = TTF_OpenFont("arialbd.ttf", 48);
 
-    int alpha = (SDL_GetTicks() / 500) % 2 == 0 ? 255 : 50;  // Nhấp nháy mỗi 500ms
+    int alpha = (SDL_GetTicks() / 500) % 2 == 0 ? 255 : 50;
 
     SDL_Surface* titleSurface = TTF_RenderText_Solid(font, "TETRIS", white);
     SDL_Texture* titleTexture = SDL_CreateTextureFromSurface(renderer, titleSurface);
@@ -511,12 +486,10 @@ void drawStartScreen() {
     SDL_Rect titleRect = {SCREEN_WIDTH / 2 - 100, 50, 200, 50};
     SDL_RenderCopy(renderer, titleTexture, NULL, &titleRect);
 
-    // Tạo bề mặt chữ "Press ENTER to Play"
     SDL_Surface* playSurface = TTF_RenderText_Solid(font, "Let's Play", white);
     SDL_Texture* playTexture = SDL_CreateTextureFromSurface(renderer, playSurface);
     SDL_SetTextureAlphaMod(playTexture, alpha);
 
-    // Tính toán vị trí căn giữa (phía dưới chữ TETRIS)
     SDL_Rect playRect = {SCREEN_WIDTH / 2 - 150, 200, 300, 50};
     SDL_RenderCopy(renderer, playTexture, NULL, &playRect);
 
@@ -542,32 +515,28 @@ void startScreenLoop() {
         }
 
         SDL_RenderClear(renderer);
-        renderBackground(renderer, backgroundTexture); // Vẽ ảnh nền
-        drawStartScreen(); // Vẽ UI của màn hình Start
-        SDL_RenderPresent(renderer); // **Bắt buộc** để hiển thị
+        renderBackground(renderer, backgroundTexture);
+        drawStartScreen();
+        SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
 }
 
 void resetGame() {
-    // Xóa lưới
     for (int i = 0; i < ROWS; ++i)
         for (int j = 0; j < COLS; ++j)
-            grid[i][j] = {0, 0, 0};  // hoặc màu nền
+            grid[i][j] = {0, 0, 0};
 
-    // Reset các biến
     score = 0;
     level = 1;
     linesCleared = 0;
     gameOver = false;
 
-    // Reset bag, hold
     bag.clear();
     shuffleBag();
     holdUsedThisTurn = false;
     hasHoldPiece = false;
 
-    // Spawn khối đầu tiên
     int index = bag.back(); bag.pop_back();
     currentPiece = createTetrominoFromId(index);
     currentIndex = index;
@@ -594,34 +563,34 @@ void handleInput(SDL_Event& e) {
             }
         }
         else if (showSettingsMenu) {
-            // Nếu đang ở menu settings
+
             switch (e.key.keysym.sym) {
                 case SDLK_s:
-                    showSettingsMenu = false; // Bấm S để thoát settings
-                    paused = false;  // Tiếp tục game khi thoát settings
+                    showSettingsMenu = false;
+                    paused = false;
                     break;
                 case SDLK_EQUALS:
-                    Mix_VolumeMusic(MIX_MAX_VOLUME); // Tăng âm lượng tối đa
+                    Mix_VolumeMusic(MIX_MAX_VOLUME);
                     break;
                 case SDLK_MINUS:
-                    Mix_VolumeMusic(MIX_MAX_VOLUME / 4); // Giảm âm lượng
+                    Mix_VolumeMusic(MIX_MAX_VOLUME / 4);
                     break;
-                case SDLK_m:  // Bấm M để tắt/bật âm thanh
+                case SDLK_m:
                     if (isMuted) {
                         isMuted = false;
-                        Mix_VolumeMusic(MIX_MAX_VOLUME); // Bật âm thanh
+                        Mix_VolumeMusic(MIX_MAX_VOLUME);
                     } else {
                         isMuted = true;
-                        Mix_VolumeMusic(0); // Tắt âm thanh
+                        Mix_VolumeMusic(0);
                     }
                     break;
             }
         }
         else {
             if (e.key.keysym.sym == SDLK_s) {
-                showSettingsMenu = true;  // Bấm S để vào menu settings
-                paused = true;  // Dừng game khi vào settings
-                return;  // Tránh xử lý các phím khác nếu đang ở menu settings
+                showSettingsMenu = true;
+                paused = true;
+                return;
             }
 
             if (e.key.keysym.sym == SDLK_r && gameOver) {
@@ -686,27 +655,24 @@ void handleInput(SDL_Event& e) {
 void update() {
     if (paused) return;
 
-    // Khi thua
     if (gameOver && !musicPlayed) {
         Mixer::haltMusic();
         Mixer::playMusic("win_theme.mp3");
         musicPlayed = true;
     }
 
-    // Khi thắng
     if (level >= 5 && !gameWin) {
         gameWin = true;
         Mixer::haltMusic();
         Mixer::playMusic("win_theme.mp3");
         musicPlayed = true;
-        return; // Không update nữa nếu đã thắng
+        return;
     }
 
     if (gameOver || gameWin) return;
 
     Uint32 currentTime = SDL_GetTicks();
 
-    // Nếu đang chạm đáy
     if (checkCollision(currentX, currentY + 1, currentRotation)) {
         if (!onGround) {
             onGround = true;
@@ -716,7 +682,7 @@ void update() {
             onGround = false;
         }
     } else {
-        // Vẫn rơi tự do
+
         if (currentTime - lastDropTime >= DROP_DELAY / std::max(1, 2 - level / 5)) {
             currentY++;
             lastDropTime = currentTime;
@@ -730,7 +696,7 @@ void drawGameOverScreen() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    TTF_Font* font = TTF_OpenFont("BAUHS93.ttf", 48); // Load font Arial cỡ 48
+    TTF_Font* font = TTF_OpenFont("BAUHS93.ttf", 48);
     if (!font) {
         cout << "Không thể load font: " << TTF_GetError() << endl;
         return;
@@ -743,8 +709,7 @@ void drawGameOverScreen() {
     int textW = surface->w, textH = surface->h;
     SDL_Rect textRect = {SCREEN_WIDTH / 2 - textW / 2, SCREEN_HEIGHT / 2 - textH / 2, textW, textH};
 
-    // Vẽ nền phía sau chữ (màu đen với độ trong suốt)
-    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 200);  // Màu xám, độ trong suốt 200
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 200);
     SDL_Rect bgRect = {textRect.x - 20, textRect.y - 10, textRect.w + 40, textRect.h + 20};
     SDL_RenderFillRect(renderer, &bgRect);
 
@@ -762,7 +727,7 @@ void drawWinScreen() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    TTF_Font* font = TTF_OpenFont("BAUHS93.ttf", 48); // Load font Arial cỡ 48
+    TTF_Font* font = TTF_OpenFont("BAUHS93.ttf", 48);
     if (!font) {
         cout << "Không thể load font: " << TTF_GetError() << endl;
         return;
@@ -775,12 +740,11 @@ void drawWinScreen() {
     int textW = surface->w, textH = surface->h;
     SDL_Rect textRect = {SCREEN_WIDTH / 2 - textW / 2, SCREEN_HEIGHT / 2 - textH / 2, textW, textH};
 
-    // Vẽ nền phía sau chữ (màu đen với độ trong suốt)
-    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 200);  // Màu xám, độ trong suốt 200
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 200);
     SDL_Rect bgRect = {textRect.x - 20, textRect.y - 10, textRect.w + 40, textRect.h + 20};
     SDL_RenderFillRect(renderer, &bgRect);
 
-    // Vẽ chữ lên trên nền
+
     SDL_RenderCopy(renderer, texture, NULL, &textRect);
 
     SDL_FreeSurface(surface);
@@ -791,60 +755,54 @@ void drawWinScreen() {
 }
 
 void renderSettingsMenu(SDL_Renderer* renderer) {
-    // Tính toán vị trí căn giữa khung
-    const int SETTINGS_WIDTH = 350;  // Chiều rộng khung
-    const int SETTINGS_HEIGHT = 200; // Chiều cao khung
 
-    int settingsX = (SCREEN_WIDTH - SETTINGS_WIDTH) / 2;  // Vị trí căn giữa theo chiều ngang
-    int settingsY = (SCREEN_HEIGHT - SETTINGS_HEIGHT) / 2; // Vị trí căn giữa theo chiều dọc
+    const int SETTINGS_WIDTH = 350;
+    const int SETTINGS_HEIGHT = 200;
 
-    // Vẽ nền settings (khung nhỏ hơn)
+    int settingsX = (SCREEN_WIDTH - SETTINGS_WIDTH) / 2;
+    int settingsY = (SCREEN_HEIGHT - SETTINGS_HEIGHT) / 2;
+
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255); // xám đậm
     SDL_Rect settingsRect = {settingsX, settingsY, SETTINGS_WIDTH, SETTINGS_HEIGHT};
     SDL_RenderFillRect(renderer, &settingsRect);
 
-    // Tạo màu chữ trắng
     SDL_Color white = {255, 255, 255, 255};
 
-    // Vẽ chữ "Settings" ở giữa khung
     SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "Settings", white);
     SDL_Texture* Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
     SDL_Rect messageRect = {
-        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2, // Căn giữa theo chiều ngang
-        settingsY + 20, // Cách mép trên khung một chút
+        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2,
+        settingsY + 20,
         surfaceMessage->w, surfaceMessage->h
     };
     SDL_RenderCopy(renderer, Message, NULL, &messageRect);
 
-    // Vẽ hướng dẫn tăng âm lượng
     surfaceMessage = TTF_RenderText_Solid(font, "Press + to increase volume", white);
     Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
     SDL_Rect increaseVolumeRect = {
-        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2, // Căn giữa theo chiều ngang
-        settingsY + 60, // Cách chữ "Settings" một chút
+        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2,
+        settingsY + 60,
         surfaceMessage->w, surfaceMessage->h
     };
     SDL_RenderCopy(renderer, Message, NULL, &increaseVolumeRect);
 
-    // Vẽ hướng dẫn giảm âm lượng
     surfaceMessage = TTF_RenderText_Solid(font, "Press - to decrease volume", white);
     Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
     SDL_Rect decreaseVolumeRect = {
-        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2, // Căn giữa theo chiều ngang
-        settingsY + 100, // Cách chữ "Press + to increase volume" một chút
+        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2,
+        settingsY + 100,
         surfaceMessage->w, surfaceMessage->h
     };
     SDL_RenderCopy(renderer, Message, NULL, &decreaseVolumeRect);
     surfaceMessage = TTF_RenderText_Solid(font, "Press M to turn off/on volume", white);
     Message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
     SDL_Rect turnonoroffVolumeRect = {
-        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2, // Căn giữa theo chiều ngang
-        settingsY + 140, // Cách chữ "Settings" một chút
+        settingsX + (SETTINGS_WIDTH - surfaceMessage->w) / 2,
+        settingsY + 140,
         surfaceMessage->w, surfaceMessage->h
     };
     SDL_RenderCopy(renderer, Message, NULL, &turnonoroffVolumeRect);
 
-    // Giải phóng tài nguyên
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(Message);
 }
@@ -863,74 +821,62 @@ void render() {
     }
 
     if (showSettingsMenu) {
-        renderSettingsMenu(renderer); // <- GỌI VÀO ĐÂY
-        SDL_RenderPresent(renderer);   // <- Và nhớ Present
+        renderSettingsMenu(renderer);
+        SDL_RenderPresent(renderer);
         return;
     }
 
-    // Xóa màn hình
     SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
     SDL_RenderClear(renderer);
 
-    // Vẽ nền
     renderBackground(renderer, backgroundTexture);
 
-    // Vẽ lưới
     drawGrid();
 
-    // Vẽ khối hiện tại với block 3D
     drawTetromino(currentPiece, renderer);
 
-    // Màu chữ
     SDL_Color white = {255, 255, 255, 255};
 
-    // Tạo text renderer (giả sử bạn đã khởi tạo TTF_Init từ trước!)
-    static TextRenderer text(renderer); // Chỉ khởi tạo một lần
+    static TextRenderer text(renderer);
 
-    int infoX = SCREEN_WIDTH - 100; // Vị trí lề phải
+    int infoX = SCREEN_WIDTH - 100;
     int y = 30;
 
-    // Hiển thị thông tin điểm số, level, dòng
     text.drawText("Score: " + std::to_string(score), infoX, y, white);
     y += 30;
     text.drawText("Level: " + std::to_string(level), infoX, y, white);
     y += 30;
 
-    // Hiển thị khối tiếp theo
     text.drawText("Next Piece", infoX, y, white);
-    // Tính toán vị trí căn giữa của khối tiếp theo
+
     int nextPieceY = y + 30;
     drawMiniTetromino(nextPiece, infoX-30, nextPieceY);
     y += 90;
 
-    // Hiển thị khối đang giữ
     text.drawText("Hold Piece", infoX, y, white);
-    // Tính toán vị trí căn giữa của khối hold
+
     int holdPieceY = y + 30;
     if (hasHoldPiece) {
         drawMiniTetromino(holdPiece, infoX - 30, holdPieceY);
     }
 
-    // Nếu trò chơi bị tạm dừng, hiển thị chữ "Paused" lấp lánh
     if (paused) {
-        static Uint32 lastTime = SDL_GetTicks(); // Thời gian lần render trước
+        static Uint32 lastTime = SDL_GetTicks();
         Uint32 currentTime = SDL_GetTicks();
-        if (currentTime - lastTime > 500) { // Mỗi nửa giây thay đổi màu
+        if (currentTime - lastTime > 500) {
             lastTime = currentTime;
         }
 
-        // Tạo hiệu ứng lấp lánh bằng cách thay đổi độ trong suốt của chữ
-        Uint8 alpha = (currentTime / 100) % 2 == 0 ? 255 : 0;  // Thay đổi giữa 255 và 0
+        Uint8 alpha = (currentTime / 100) % 2 == 0 ? 255 : 0;
 
         SDL_Color pausedColor = {255, 255, 255, alpha};
         text.drawText("PAUSED", SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 50, pausedColor);
     }
-    // Hiển thị tất cả
+
     SDL_RenderPresent(renderer);
 }
 
 int main(int argc, char *argv[]) {
-    // Khởi tạo SDL
     SDL_Init(SDL_INIT_VIDEO);
     TTF_Init();
     shuffleBag();
@@ -946,7 +892,6 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    // Khởi tạo cửa sổ và renderer
     window = SDL_CreateWindow("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -957,24 +902,20 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    // Load background
     backgroundTexture = loadTexture("Tetris1.jpg", renderer);
     renderBackground(renderer, backgroundTexture);
 
     Settings settings;
 
-    // Bắt đầu chơi nhạc
     currentMusic = Mixer::loadMusicForLevel(level);
     if (currentMusic && Mix_PlayMusic(currentMusic, -1) == -1) {
         std::cerr << "Mix_PlayMusic Error: " << Mix_GetError() << std::endl;
         return -1;
     }
-    Mix_VolumeMusic(volume); // Set âm lượng nhạc theo biến volume luôn!
+    Mix_VolumeMusic(volume);
 
-    // Hiển thị màn hình bắt đầu
     startScreenLoop();
 
-    // Random seed và spawn mảnh đầu tiên
     spawnNewPiece();
 
     SDL_Event e;
@@ -993,7 +934,6 @@ int main(int argc, char *argv[]) {
         SDL_Delay(16);
     }
 
-    // Dọn tài nguyên khi kết thúc
     TTF_CloseFont(font);
     TTF_Quit();
     SDL_DestroyRenderer(renderer);
